@@ -97,15 +97,15 @@ const Footer = () => (
         <Text>
           A Copérnico Energia Solar Tecnologia e Serviços Financeiros Ltda.
           ("Copérnico") é pessoa jurídica registrada sob o CNPJ nº
-          xx.xxx.xxx/xxx-xx.
+          39.439.388/0001-67.
         </Text>
         <Text>
           A Copérnico não é uma instituição financeira e não realiza operações
           de crédito diretamente, mas é uma correspondente bancária do Safra –
           Crédito, Financiamento e Investimento S.A. (“Safra”), registrada sob o
-          CNPJ nº xx.xxx.xxx/xxx-xx que, nos termos da Resolução nº 3954 da CMN
+          CNPJ nº 39.439.388/0001-67 que, nos termos da Resolução nº 3954 da CMN
           de 24 de fevereiro de 2011, firmaram um acordo entre si. Telefone da
-          ouvidoria da Copérnico: 0800 000 0000.
+          ouvidoria da Copérnico: (11) 2626-3932.
         </Text>
         <Text>© Copérnico 2021 - Todos os direitos reservados</Text>
       </div>
