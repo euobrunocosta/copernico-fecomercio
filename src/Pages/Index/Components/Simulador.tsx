@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Container } from 'react-bootstrap'
+// import { Container } from 'react-bootstrap'
+import Container from 'Components/Container/Container'
 import { formatCurrency, formatDecimalNumber } from 'Utils/helpers'
 import guysHoldingSunImage from 'Assets/images/guysHoldingSun.png'
 
-const SimuladorContainer = styled(Container)`
+const InnerWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,6 +13,7 @@ const SimuladorContainer = styled(Container)`
   background: url(${guysHoldingSunImage}) no-repeat;
   background-size: 470px 669px;
   background-position: right center;
+  text-align: center;
 
   p {
     margin: 0;
@@ -19,6 +21,11 @@ const SimuladorContainer = styled(Container)`
 
   h3 {
     margin-bottom: 0;
+  }
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.BS_LG}) {
+    background: unset;
+    padding-right: 0;
   }
 `
 
@@ -139,12 +146,6 @@ const getArvores = (contaLuz: number) => {
   return formatDecimalNumber(resultado)
 }
 
-// function getVeiculo(contaLuz: number) {
-//   const consumo = contaLuz / custoEnergia
-//   const resultado = (consumo * 984228) / geracaoUsina
-//   return formatDecimalNumber(resultado)
-// }
-
 const Simulador = () => {
   const [contaLuz, setContaLuz] = useState(initialContaLuzValue)
 
@@ -153,52 +154,57 @@ const Simulador = () => {
     setContaLuz(Number(value))
   }
 
+  const onClickScrollToForm = () => {
+    window.location.href = '#form'
+  }
+
   const formattedContaLuz = formatCurrency(contaLuz)
   const formattedEconomia = getEconomia(contaLuz)
   const formattedCO2 = getCO2(contaLuz)
   const formattedArvores = getArvores(contaLuz)
-  // const formattedVeiculo = getVeiculo(contaLuz)
 
   return (
-    <SimuladorContainer>
-      <Title>
-        Simule aqui quanto pode economizar em sua conta de energia e
-        surpreenda-se
-      </Title>
+    <Container>
+      <InnerWrapper>
+        <Title>
+          Simule aqui quanto pode economizar em sua conta de energia e
+          surpreenda-se
+        </Title>
 
-      <MainQuestion>
-        Qual o valor médio de sua <strong>conta de luz</strong>?
-      </MainQuestion>
+        <MainQuestion>
+          Qual o valor médio de sua <strong>conta de luz</strong>?
+        </MainQuestion>
 
-      <Slider
-        type="range"
-        min="200"
-        max="20000"
-        step="10"
-        onChange={onChangeContaLuz}
-        value={contaLuz}
-      />
-      <LightEnphasisValue>{formattedContaLuz}</LightEnphasisValue>
-      <Frase>
-        Sua economia em <strong>12 meses</strong> será de aproximadamente:
-      </Frase>
-      <StrongEnphasisValue>{formattedEconomia}</StrongEnphasisValue>
-      <Frase>
-        Além disso, veja seu <strong>impacto positivo</strong> para o meio
-        ambiente:
-      </Frase>
-      <Frase>
-        Menos de <MediumEnphasisValue>{formattedCO2}</MediumEnphasisValue>{' '}
-        <strong>kg</strong> de <strong>CO2</strong> ou{' '}
-        <MediumEnphasisValue>{formattedArvores}</MediumEnphasisValue> árvores
-        plantadas
-      </Frase>
-      <Button>Quero Economizar</Button>
-      <FootNote>
-        *Essa simulação foi feita considerando uma conexão bifásica. O desconto
-        real pode sofrer alterações.
-      </FootNote>
-    </SimuladorContainer>
+        <Slider
+          type="range"
+          min="200"
+          max="20000"
+          step="10"
+          onChange={onChangeContaLuz}
+          value={contaLuz}
+        />
+        <LightEnphasisValue>{formattedContaLuz}</LightEnphasisValue>
+        <Frase>
+          Sua economia em <strong>12 meses</strong> será de aproximadamente:
+        </Frase>
+        <StrongEnphasisValue>{formattedEconomia}</StrongEnphasisValue>
+        <Frase>
+          Além disso, veja seu <strong>impacto positivo</strong> para o meio
+          ambiente:
+        </Frase>
+        <Frase>
+          Menos de <MediumEnphasisValue>{formattedCO2}</MediumEnphasisValue>{' '}
+          <strong>kg</strong> de <strong>CO2</strong> ou{' '}
+          <MediumEnphasisValue>{formattedArvores}</MediumEnphasisValue> árvores
+          plantadas
+        </Frase>
+        <Button onClick={onClickScrollToForm}>Quero Economizar</Button>
+        <FootNote>
+          *Essa simulação foi feita considerando uma conexão bifásica. O
+          desconto real pode sofrer alterações.
+        </FootNote>
+      </InnerWrapper>
+    </Container>
   )
 }
 

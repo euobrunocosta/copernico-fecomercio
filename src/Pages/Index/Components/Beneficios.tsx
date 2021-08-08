@@ -1,17 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Container } from 'react-bootstrap'
+import Container from 'Components/Container/Container'
 
 import sunIcon from 'Assets/images/icons/sun.png'
 
 const BeneficiosContainer = styled.section`
   padding: 140px 0 93px 0;
   background-color: ${({ theme }) => theme.colors.LIGHTER_GRAY};
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.BS_LG}) {
+    padding: 0;
+  }
 `
 
 const Title = styled.h2`
   color: ${({ theme }) => theme.colors.RED};
   font-size: 50px;
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.BS_LG}) {
+    font-size: 40px;
+  }
 `
 
 const SubTitle = styled.h3`
@@ -22,6 +30,10 @@ const SubTitle = styled.h3`
   strong {
     color: ${({ theme }) => theme.colors.YELLOW};
     font-weight: bold;
+  }
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.BS_LG}) {
+    margin: 40px 0;
   }
 `
 
@@ -43,15 +55,12 @@ const List = styled.ul`
       font-weight: 700;
     }
 
-    &:first-child p {
-      margin-left: -7px;
-    }
-
     &::before {
       display: block;
       content: '';
       width: 30px;
       height: 30px;
+      min-width: 30px;
       background: url(${sunIcon}) no-repeat;
       background-size: 20px 20px;
       background-position: center left;

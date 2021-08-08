@@ -51,7 +51,7 @@ const Navbar = () => {
         <Logo>
           <a href="/">Copérnico - Energia que renova</a>
         </Logo>
-        <Menu>
+        {/* <Menu>
           <li>
             <a href="/">Copérnico</a>
           </li>
@@ -70,9 +70,9 @@ const Navbar = () => {
           <li>
             <a href="/">Fale conosco</a>
           </li>
-        </Menu>
+        </Menu> */}
       </div>
-      <Button>Sou integrador</Button>
+      {/* <Button>Sou integrador</Button> */}
     </NavContainer>
   )
 }

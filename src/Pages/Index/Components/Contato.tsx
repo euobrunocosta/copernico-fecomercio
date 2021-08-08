@@ -1,9 +1,11 @@
-import React from 'react'
-import {
-  Container as ContainerBS,
-  Form as FormBS,
-  InputGroup,
-} from 'react-bootstrap'
+import React, { useState } from 'react'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
+import emailjs from 'emailjs-com'
+import { useToasts } from 'react-toast-notifications'
+import { Form as FormBS, InputGroup, Spinner } from 'react-bootstrap'
+import Container from 'Components/Container/Container'
+import InputMask from 'react-input-mask'
 import styled from 'styled-components'
 
 import arrowIcon from 'Assets/images/icons/arrow.png'
@@ -14,10 +16,18 @@ const ContatoContainer = styled.section`
     ${({ theme }) => theme.colors.WHITE} 62%,
     ${({ theme }) => theme.colors.YELLOW} 62%
   );
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.BS_LG}) {
+    background: unset;
+  }
 `
 
-const Container = styled(ContainerBS)`
+const InnerWrapper = styled.div`
   display: flex;
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.BS_LG}) {
+    flex-direction: column;
+  }
 `
 
 const Info = styled.div`
@@ -26,12 +36,21 @@ const Info = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: ${({ theme }) => theme.colors.YELLOW};
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.BS_LG}) {
+    padding: 30px;
+  }
 `
 
 const Title = styled.h2`
   padding-right: 100px;
   color: ${({ theme }) => theme.colors.RED};
   margin-bottom: 50px;
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.BS_LG}) {
+    padding: 0;
+  }
 `
 
 type TTextProps = {
@@ -46,6 +65,10 @@ const Text = styled.p<TTextProps>`
 const Form = styled.form`
   flex: 3;
   padding: 100px 130px;
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.BS_LG}) {
+    padding: 30px;
+  }
 `
 
 const FormInfo = styled.p`
@@ -78,89 +101,192 @@ const Button = styled.button`
   font-size: 15px;
 `
 
+const MaskedInput = styled(InputMask)`
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.LIGHT_GRAY};
+  }
+`
+
+const validationSchema = yup.object().shape({
+  nome: yup.string().required('Por favor informe seu nome'),
+  email: yup
+    .string()
+    .required('Por favor informe seu e-mail')
+    .email('Insira um e-mail válido'),
+})
+
+const sendEmailErrorMessage =
+  'Algo de errado aconteceu ao termarmos enviar seus dados. Favor tentar novamente mais tarde'
+const sendEmailSuccessMessage =
+  'Seus dados foram enviados com sucesso! Aguarde nosso contato em breve'
+
+type TForm = {
+  nome: string
+  email: string
+  telefone: string
+  cep: string
+}
+
+const initialValues: TForm = {
+  nome: '',
+  email: '',
+  telefone: '',
+  cep: '',
+}
+
 const Contato = () => {
+  const [isSending, setIsSending] = useState(false)
+
+  const { addToast } = useToasts()
+
+  const onSubmit = async () => {
+    const serviceId = process.env.REACT_APP_MAILJS_SERVICE_ID || ''
+    const templateId = process.env.REACT_APP_MAILJS_TEMPLATE_FECOMERCIO_ID || ''
+    const userId = process.env.REACT_APP_MAILJS_USER_ID || ''
+
+    console.log('chegou aqui')
+
+    setIsSending(true)
+    const response = await emailjs.send(
+      serviceId,
+      templateId,
+      formik.values,
+      userId
+    )
+    setIsSending(false)
+
+    if (!response) {
+      addToast(sendEmailErrorMessage, {
+        appearance: 'error',
+        autoDismiss: true,
+      })
+      return
+    }
+
+    addToast(sendEmailSuccessMessage, {
+      appearance: 'success',
+      autoDismiss: true,
+    })
+    formik.resetForm()
+  }
+
+  const formik = useFormik<TForm>({
+    initialValues,
+    validationSchema,
+    enableReinitialize: true,
+    validateOnChange: true,
+    onSubmit,
+  })
+
   return (
     <ContatoContainer>
-      <Container>
-        <Info>
-          <Title>Nossas escolhas moldam o destino do planeta.</Title>
-          <Text spaced>
-            O futuro é energia limpa e sustentável para todos os brasileiros,
-            com respeito e preservação da natureza.
-          </Text>
-          <Text>
-            O futuro é Copérnico. O mundo precisa de energia boa. Use a do sol.
-          </Text>
-        </Info>
-        <Form>
-          <FormInfo>
-            Para darmos sequência à adesão, preencha os dados abaixo que
-            entraremos em contato
-          </FormInfo>
+      <Container padding={0}>
+        <InnerWrapper>
+          <Info>
+            <Title>Nossas escolhas moldam o destino do planeta.</Title>
+            <Text spaced>
+              O futuro é energia limpa e sustentável para todos os brasileiros,
+              com respeito e preservação da natureza.
+            </Text>
+            <Text>
+              O futuro é Copérnico. O mundo precisa de energia boa. Use a do
+              sol.
+            </Text>
+          </Info>
+          <Form onSubmit={formik.handleSubmit} id="form">
+            <FormInfo>
+              Para darmos sequência à adesão, preencha os dados abaixo que
+              entraremos em contato
+            </FormInfo>
 
-          <InputsContainer>
-            <FormBS.Group>
-              <FormBS.Label>Nome / Razão Social</FormBS.Label>
+            <InputsContainer>
+              <FormBS.Group>
+                <FormBS.Label>Nome / Razão Social</FormBS.Label>
 
-              <InputGroup>
-                <Input
-                  name="nome"
-                  type="text"
-                  placeholder="Digite o nome aqui"
-                />
+                <InputGroup>
+                  <Input
+                    name="nome"
+                    type="text"
+                    placeholder="Digite o nome aqui"
+                    isInvalid={Boolean(
+                      formik.touched.nome && formik.errors.nome
+                    )}
+                    value={formik.values.nome}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                  />
 
-                <FormBS.Control.Feedback type="invalid">
-                  kdjfksjd
-                </FormBS.Control.Feedback>
-              </InputGroup>
-            </FormBS.Group>
+                  <FormBS.Control.Feedback type="invalid">
+                    {formik.errors.nome}
+                  </FormBS.Control.Feedback>
+                </InputGroup>
+              </FormBS.Group>
 
-            <FormBS.Group>
-              <FormBS.Label>E-mail</FormBS.Label>
+              <FormBS.Group>
+                <FormBS.Label>E-mail</FormBS.Label>
 
-              <InputGroup>
-                <Input
-                  name="email"
-                  type="email"
-                  placeholder="Seu endereço de e-mail"
-                />
+                <InputGroup>
+                  <Input
+                    name="email"
+                    type="email"
+                    placeholder="Seu endereço de e-mail"
+                    isInvalid={Boolean(
+                      formik.touched.email && formik.errors.email
+                    )}
+                    value={formik.values.email}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                  />
 
-                <FormBS.Control.Feedback type="invalid">
-                  kdjfksjd
-                </FormBS.Control.Feedback>
-              </InputGroup>
-            </FormBS.Group>
+                  <FormBS.Control.Feedback type="invalid">
+                    {formik.errors.email}
+                  </FormBS.Control.Feedback>
+                </InputGroup>
+              </FormBS.Group>
 
-            <FormBS.Group>
-              <FormBS.Label>Telefone com DDD</FormBS.Label>
+              <FormBS.Group>
+                <FormBS.Label>Telefone com DDD</FormBS.Label>
 
-              <InputGroup>
-                <Input
-                  name="telefone"
-                  type="text"
-                  placeholder="(00) 00000-0000"
-                />
+                <InputGroup>
+                  <MaskedInput
+                    className="form-control"
+                    name="telefone"
+                    mask="(99) 99999-9999"
+                    type="text"
+                    placeholder="(00) 00000-0000"
+                    value={formik.values.telefone}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                  />
+                </InputGroup>
+              </FormBS.Group>
 
-                <FormBS.Control.Feedback type="invalid">
-                  kdjfksjd
-                </FormBS.Control.Feedback>
-              </InputGroup>
-            </FormBS.Group>
+              <FormBS.Group>
+                <FormBS.Label>CEP</FormBS.Label>
 
-            <FormBS.Group>
-              <FormBS.Label>CEP</FormBS.Label>
-
-              <InputGroup>
-                <Input name="cep" type="text" placeholder="00000-000" />
-
-                <FormBS.Control.Feedback type="invalid">
-                  kdjfksjd
-                </FormBS.Control.Feedback>
-              </InputGroup>
-            </FormBS.Group>
-          </InputsContainer>
-          <Button type="submit">Enviar</Button>
-        </Form>
+                <InputGroup>
+                  <MaskedInput
+                    className="form-control"
+                    name="cep"
+                    mask="99999-999"
+                    type="text"
+                    placeholder="00000-000"
+                    value={formik.values.cep}
+                    onBlur={formik.handleBlur}
+                    onChange={formik.handleChange}
+                  />
+                </InputGroup>
+              </FormBS.Group>
+            </InputsContainer>
+            <Button type="submit">
+              {isSending ? (
+                <Spinner animation="border" size="sm" />
+              ) : (
+                <span>Enviar</span>
+              )}
+            </Button>
+          </Form>
+        </InnerWrapper>
       </Container>
     </ContatoContainer>
   )

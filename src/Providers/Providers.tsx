@@ -1,6 +1,7 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from 'styled-components'
+import { ToastProvider } from 'react-toast-notifications'
 import { theme } from '../theme'
 
 type TProps = {
@@ -9,7 +10,9 @@ type TProps = {
 
 const Providers = ({ children }: TProps) => (
   <BrowserRouter>
-    <ThemeProvider theme={theme}>{children}</ThemeProvider>
+    <ThemeProvider theme={theme}>
+      <ToastProvider>{children}</ToastProvider>
+    </ThemeProvider>
   </BrowserRouter>
 )
 

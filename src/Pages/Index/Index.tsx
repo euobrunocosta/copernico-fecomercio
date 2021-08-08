@@ -6,18 +6,18 @@ import Beneficios from './Components/Beneficios'
 import Simulador from './Components/Simulador'
 import Contato from './Components/Contato'
 import Chamada from './Components/Chamada'
+import Footer from 'Components/Footer/Footer'
 
-const Index = () => {
-  return (
-    <>
-      <Header />
-      <Location />
-      <Beneficios />
-      <Simulador />
-      <Contato />
-      <Chamada />
-    </>
-  )
-}
+const Index = () => (
+  <>
+    <Header />
+    <Location />
+    <Beneficios />
+    <Simulador />
+    <Contato />
+    <Chamada />
+    <Footer />
+  </>
+)
 
 export default Index
