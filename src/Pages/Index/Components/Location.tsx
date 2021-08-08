@@ -25,7 +25,7 @@ const InnerWrapper = styled.div`
   );
   background-repeat: no-repeat;
   background-position: right center;
-  padding: 50px 0;
+  padding: 50px 30px;
   display: flex;
   align-items: center;
   gap: 20px;
