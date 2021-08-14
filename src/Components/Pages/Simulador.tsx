@@ -125,10 +125,10 @@ type TInputEvent = {
 const custoEnergia = 0.92
 const desconto = 0.15
 const geracaoUsina = 13340900
-const initialContaLuzValue = 10100
+const initialContaLuzValue = 1000
 
 const getEconomia = (contaLuz: number) => {
-  const economia = custoEnergia * (contaLuz * 12 - 1000) * desconto
+  const economia = custoEnergia * (contaLuz * 12 - 1000) * desconto * 1.05
   const valueToConsider = economia > 0 ? economia : 0
 
   return formatCurrency(valueToConsider)

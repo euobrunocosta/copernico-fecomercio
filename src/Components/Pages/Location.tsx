@@ -62,7 +62,7 @@ const Location = () => {
           <div>
             <Title>
               Estamos sempre onde o sol aponta e acreditamos no poder da energia
-              solar para a manutenção e desenvolvimento de vida.{' '}
+              solar para a manutenção e desenvolvimento de vida.
             </Title>
             <Text>
               A Copérnico é a maior empresa de fornecimento de energia

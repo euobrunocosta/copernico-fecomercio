@@ -42,6 +42,11 @@ const Button = styled.button`
   padding: 0 30px;
   font-weight: 400;
   border-radius: 6px;
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.BS_LG}) {
+    font-size: 12px;
+    padding: 0 15px;
+  }
 `
 
 const Navbar = () => {
@@ -75,7 +80,7 @@ const Navbar = () => {
           </li>
         </Menu> */}
       </div>
-      {/* <Button onClick={onClickGoToPage}>Sou integrador</Button> */}
+      <Button onClick={onClickGoToPage}>Sou integrador</Button>
     </NavContainer>
   )
 }
