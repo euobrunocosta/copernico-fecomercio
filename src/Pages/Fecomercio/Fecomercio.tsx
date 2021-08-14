@@ -1,20 +1,18 @@
 import React from 'react'
 
-import Header from './Components/Header'
+import Header from 'Components/Pages/Header'
 import Location from 'Components/Pages/Location'
+import Beneficios from 'Components/Pages/Beneficios'
 import Simulador from 'Components/Pages/Simulador'
 import Contato from 'Components/Pages/Contato'
-import Chamada from './Components/Chamada'
+import Chamada from 'Components/Pages/Chamada'
 import Footer from 'Components/Footer/Footer'
-import Escolha from './Components/Escolha'
-import Migrar from './Components/Migrar'
 
-const Institucional = () => (
+const Fecomercio = () => (
   <>
     <Header />
-    <Escolha />
-    <Migrar />
     <Location />
+    <Beneficios />
     <Simulador />
     <Contato />
     <Chamada />
@@ -22,4 +20,4 @@ const Institucional = () => (
   </>
 )
 
-export default Institucional
+export default Fecomercio
