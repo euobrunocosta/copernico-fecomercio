@@ -422,7 +422,9 @@ const FormSimulador = (props: TProps) => {
       </Row>
 
       <ButtonsWrapper>
-        <OutLinedButton type="button">Voltar</OutLinedButton>
+        <OutLinedButton type="button" onClick={() => handleFaseChange(1)}>
+          Voltar
+        </OutLinedButton>
         <Button
           type="button"
           showIcon

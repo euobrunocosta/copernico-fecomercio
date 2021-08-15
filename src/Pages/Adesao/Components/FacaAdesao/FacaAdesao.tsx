@@ -71,7 +71,12 @@ const Spacer = styled.div`
   height: 30px;
 `
 
-const FacaAdesao = () => {
+type TProps = {
+  handlePrevChangeFase(fase: number): void
+}
+
+const FacaAdesao = (props: TProps) => {
+  const { handlePrevChangeFase } = props
   const [fase, setFase] = useState(1)
 
   const handleFaseChange = (_fase: number) => setFase(_fase)
@@ -85,7 +90,12 @@ const FacaAdesao = () => {
           <FaseItem active={fase === 3}>3</FaseItem>
         </FaseIndicator>
         <Spacer />
-        {fase === 1 && <FormContrato handleFaseChange={handleFaseChange} />}
+        {fase === 1 && (
+          <FormContrato
+            handlePrevChangeFase={handlePrevChangeFase}
+            handleFaseChange={handleFaseChange}
+          />
+        )}
         {fase === 2 && <FormSimulador handleFaseChange={handleFaseChange} />}
         {fase === 3 && <Parabens />}
       </FacaAdesaoContainer>

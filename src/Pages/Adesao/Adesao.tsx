@@ -12,14 +12,14 @@ import WhatsApp from 'Components/Pages/WhatsApp'
 const Adesao = () => {
   const [fase, setFase] = useState(1)
 
-  const changeToSecondFase = () => setFase(2)
+  const handleChangeFase = (fase: number) => setFase(fase)
 
   return (
     <>
       <Navbar />
       <Header />
-      {fase === 1 && <Simuador changeToSecondFase={changeToSecondFase} />}
-      {fase === 2 && <FacaAdesao />}
+      {fase === 1 && <Simuador handleChangeFase={handleChangeFase} />}
+      {fase === 2 && <FacaAdesao handlePrevChangeFase={handleChangeFase} />}
       <Beneficios />
       <Contato />
       <FAQ />

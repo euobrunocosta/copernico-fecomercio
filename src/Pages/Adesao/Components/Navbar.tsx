@@ -61,6 +61,11 @@ const SideMenuToggler = styled.button`
   border: none;
   background: transparent url(${menuTogglerIcon}) no-repeat;
   background-position: center;
+  display: none;
+
+  @media screen and (max-width: ${({ theme }) => theme.breakPoints.BS_LG}) {
+    display: block;
+  }
 `
 
 type TSideMenuProps = {

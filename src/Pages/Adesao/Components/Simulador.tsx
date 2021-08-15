@@ -147,11 +147,11 @@ type TInputEvent = {
 }
 
 type TProps = {
-  changeToSecondFase(): void
+  handleChangeFase(fase: number): void
 }
 
 const Simuador = (props: TProps) => {
-  const { changeToSecondFase } = props
+  const { handleChangeFase } = props
 
   const [contaLuz, setContaLuz] = useState(initialContaLuzValue)
 
@@ -159,6 +159,8 @@ const Simuador = (props: TProps) => {
     const { value } = event.target
     setContaLuz(Number(value))
   }
+
+  const onClickChangeToSecondFase = () => handleChangeFase(2)
 
   const formattedContaLuz = formatCurrency(contaLuz)
   const formattedEconomia = getEconomia(contaLuz)
@@ -205,7 +207,7 @@ const Simuador = (props: TProps) => {
             árvores plantadas
           </Frase>
 
-          <Button onClick={changeToSecondFase}>Quero Economizar</Button>
+          <Button onClick={onClickChangeToSecondFase}>Quero Economizar</Button>
 
           <FootNote>
             *Essa simulação foi feita considerando uma conexão bifásica.

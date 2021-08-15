@@ -186,10 +186,11 @@ const initialValues: TForm = {
 
 type TProps = {
   handleFaseChange(fase: number): void
+  handlePrevChangeFase(fase: number): void
 }
 
 const FormContrato = (props: TProps) => {
-  const { handleFaseChange } = props
+  const { handleFaseChange, handlePrevChangeFase } = props
 
   const { addToast } = useToasts()
 
@@ -204,6 +205,8 @@ const FormContrato = (props: TProps) => {
     validateOnChange: true,
     onSubmit,
   })
+
+  const onClickGoBackToSimulator = () => handlePrevChangeFase(1)
 
   const onChangeTipoPessoa = (tipoPessoa: PessoaTipo) => () => {
     formik.setFieldValue('tipoPessoa', tipoPessoa)
@@ -468,7 +471,9 @@ const FormContrato = (props: TProps) => {
       </Form.Group>
 
       <ButtonsWrapper>
-        <OutLinedButton type="button">Voltar</OutLinedButton>
+        <OutLinedButton type="button" onClick={onClickGoBackToSimulator}>
+          Voltar
+        </OutLinedButton>
         <Button type="submit">Enviar</Button>
       </ButtonsWrapper>
     </CustomForm>
