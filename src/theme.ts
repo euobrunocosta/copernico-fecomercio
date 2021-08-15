@@ -13,6 +13,7 @@ enum Colors {
 }
 
 enum BreakPoints {
+  BS_SM = '576px',
   BS_MD = '767px',
   BS_LG = '992px'
 }

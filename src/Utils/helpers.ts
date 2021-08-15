@@ -21,3 +21,13 @@ export const formatDecimalNumber = (number: number) => {
 
   return formatter.format(number)
 }
+
+export const removeMaskGuides = (value: string) => (
+  value
+    .replace(/_/g, '')
+    .replace(/-/g, '')
+    .replace(/\(/g, '')
+    .replace(/\)/g, '')
+    .replace(/ /g, '')
+    .replace(/[^\d]+/g, '')
+)
